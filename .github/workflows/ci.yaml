@@ -27,9 +27,32 @@ jobs:
           ./gradlew build
           echo "gradle build completed."
 
+      - name: Extract version number from gradle.properties
+        id: extract_version
+        run: |
+          VERSION=$(grep '^version=' gradle.properties | cut -d '=' -f 2)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Extracted version: $VERSION"
+
       - name: Run unit tests
         run: |
           echo "Running unit tests..."
           ./gradlew test
           echo "Unit tests have completed"
+          
+
+      - name: Build Docker image
+        run: |
+          echo "Building Docker image..."
+          docker build -t your-image-name:${{env.VERSION}} .
+          echo "Docker image has been built with version ${{env.VERSION}}."
+
+      - name: Publish Docker image
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "Publishing Docker image..."
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker tag your-image-name:${{env.VERSION}} your-docker-repo/your-image-name:${{env.VERSION}}
+          docker push your-docker-repo/your-image-name:${{env.VERSION}}
+          echo "Docker image has been published with version ${{env.VERSION}}."
           
