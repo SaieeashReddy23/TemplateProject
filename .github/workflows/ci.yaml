@@ -35,10 +35,10 @@ jobs:
             LAST_VERSION=
           fi
           echo "Last known version: $LAST_VERSION"
-          if [ "${{ VERSION }}" != "${{ LAST_VERSION }}" ]; then
+          if [ "$VERSION" != "$LAST_VERSION" ]; then
             echo "Version has changed."
             echo "VERSION_CHANGED=true" >> $GITHUB_ENV
-            echo "${{ VERSION }}" > .version
+            echo "$VERSION" > .version
           else
             echo "Version has not changed."
             echo "VERSION_CHANGED=false" >> $GITHUB_ENV
