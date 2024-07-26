@@ -47,6 +47,9 @@ jobs:
             echo "Version has not changed."
             echo "VERSION_CHANGED=false" >> $GITHUB_ENV
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Setup JDK 17
         if: ${{ env.VERSION_CHANGED == 'true' }}
         uses: actions/setup-java@v4
