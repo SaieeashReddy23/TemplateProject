@@ -7,6 +7,16 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Type of build'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - quick
 
 jobs:
   build:
