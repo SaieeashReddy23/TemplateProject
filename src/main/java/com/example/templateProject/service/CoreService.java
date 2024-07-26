@@ -3,9 +3,10 @@ package com.example.templateProject.service;
 import com.example.templateProject.entity.User;
 import com.example.templateProject.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +20,10 @@ public class CoreService {
     UserRepository userRepo;
 
 
-    public Optional<User> getUserById(String id){
+    public ResponseEntity<Object> getUserById(String id){
         log.info("getting user from mongodb");
-        return userRepo.findById(id);
+        Optional<User> userOptional = userRepo.findById(id);
+        return userOptional.isPresent()? ResponseEntity.status(HttpStatus.OK).body(userOptional.get())  : ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     }
 
     public String addUser(User user){

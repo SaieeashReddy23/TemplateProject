@@ -25,6 +25,8 @@ public class HomeController {
     @Autowired
     EmailService emailService;
 
+
+
     @Autowired
     PersonsClient personsClient;
 
@@ -45,8 +47,7 @@ public class HomeController {
     @GetMapping("/getUser/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable String id){
         log.info("Recieved a request to get  user by id from mongodb");
-        Optional<User> userOptional = coreService.getUserById(id);
-        return ResponseEntity.ok(userOptional.isPresent()? userOptional.get()  : "User not found" );
+        return coreService.getUserById(id);
     }
 
     @PostMapping("/addUser")

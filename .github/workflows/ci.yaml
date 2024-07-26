@@ -13,4 +13,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adoptopenjdk'
+
+      - name: Build with Gradle
+        run: |
+          echo "Starting Gradle build..."
+          ./gradlew build
+          echo "gradle build completed."
+
+      - name: Run unit tests
+        run: |
+          echo "Running unit tests..."
+          ./gradlew test
+          echo "Unit tests have completed"
+          
