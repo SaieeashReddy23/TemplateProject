@@ -29,8 +29,12 @@ jobs:
         run: |
           VERSION=$(grep '^version=' gradle.properties | cut -d '=' -f 2)
           echo "Current version: $VERSION"
-          if [ -f .version ]; then
-            LAST_VERSION=$(cat .version)
+          
+          if gh run artifacts list | grep -q 'value-file'; then
+            echo "Artifact exists"
+            mkdir -p artifacts
+            gh run artifacts download -n value-file -d artifacts
+            LAST_VERSION=$(cat artifacts/value-file.txt)
           else
             LAST_VERSION=
           fi
@@ -38,12 +42,11 @@ jobs:
           if [ "$VERSION" != "$LAST_VERSION" ]; then
             echo "Version has changed."
             echo "VERSION_CHANGED=true" >> $GITHUB_ENV
-            echo "$VERSION" > .version
+            gh run artifacts upload -n value-file -d artifacts
           else
             echo "Version has not changed."
             echo "VERSION_CHANGED=false" >> $GITHUB_ENV
           fi
-
       - name: Setup JDK 17
         if: ${{ env.VERSION_CHANGED == 'true' }}
         uses: actions/setup-java@v4
