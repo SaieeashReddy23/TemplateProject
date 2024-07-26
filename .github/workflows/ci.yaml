@@ -63,7 +63,7 @@ jobs:
         run: |
           echo "Publishing Docker image..."
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker tag your-image-name:${{env.VERSION}}  ${{ secrets.DOCKER_USERNAME }}/${{env.IMAGENAME}}:${{env.VERSION}}
+          docker tag ${{env.IMAGENAME}}:${{env.VERSION}}  ${{ secrets.DOCKER_USERNAME }}/${{env.IMAGENAME}}:${{env.VERSION}}
           docker push ${{ secrets.DOCKER_USERNAME }}/${{env.IMAGENAME}}:${{env.VERSION}}
           echo "Docker image has been published with version ${{env.VERSION}}."
           
