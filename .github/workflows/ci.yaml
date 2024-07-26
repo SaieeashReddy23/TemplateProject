@@ -42,6 +42,7 @@ jobs:
         run: |
           VERSION=$(grep '^version=' gradle.properties | cut -d '=' -f 2)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "IMAGENAME=template" >> $GITHUB_ENV
           echo "Extracted version: $VERSION"
 
       - name: Run unit tests
@@ -54,7 +55,7 @@ jobs:
       - name: Build Docker image
         run: |
           echo "Building Docker image..."
-          docker build -t your-image-name:${{env.VERSION}} .
+          docker build -t ${{env.IMAGENAME}}:${{env.VERSION}} .
           echo "Docker image has been built with version ${{env.VERSION}}."
 
       - name: Publish Docker image
@@ -62,7 +63,7 @@ jobs:
         run: |
           echo "Publishing Docker image..."
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker tag your-image-name:${{env.VERSION}} your-docker-repo/your-image-name:${{env.VERSION}}
-          docker push your-docker-repo/your-image-name:${{env.VERSION}}
+          docker tag your-image-name:${{env.VERSION}}  ${{ secrets.DOCKER_USERNAME }}/${{env.IMAGENAME}}:${{env.VERSION}}
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{env.IMAGENAME}}:${{env.VERSION}}
           echo "Docker image has been published with version ${{env.VERSION}}."
           
