@@ -24,12 +24,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Check if version has changed
         run: |
           current_version=$(grep '^version=' gradle.properties | cut -d '=' -f 2)
           echo "Current version: $current_version"
-          
+        
           previous_version=$(git show HEAD~1:gradle.properties | grep '^version=' | cut -d'=' -f2)
           echo "Last known version: $previous_version"
           
