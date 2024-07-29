@@ -47,9 +47,7 @@ jobs:
         run: echo "Workflow is stopped because version is not changed"
         continue-on-error: false
 
-
       - name: Setup JDK 17
-        if: ${{ env.VERSION_CHANGED == 'true' }}
         uses: actions/setup-java@v4
         with:
           java-version: '17'
