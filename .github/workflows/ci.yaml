@@ -40,11 +40,14 @@ jobs:
           else
             echo "VERSION_CHANGED=false" >> $GITHUB_ENV
           fi
-          
 
-      - name: is version changed
-        if: ${{ env.VERSION_CHANGED == 'false' }}
-        run: echo "Workflow is stopped because version is not changed"
+      - name: Is version changed
+        run: |
+          if [ "${{ env.VERSION_CHANGED }}" == "false" ]; then
+            echo "Version is not changed so stopping the job"
+            exit 1
+          fi
+          echo "Version changed , continuing..."
         continue-on-error: false
 
       - name: Setup JDK 17
