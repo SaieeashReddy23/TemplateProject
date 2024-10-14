@@ -2,6 +2,7 @@ package com.example.templateProject.controller;
 
 import com.example.templateProject.client.PersonsClient;
 import com.example.templateProject.entity.User;
+import com.example.templateProject.producer.KafkaProducer;
 import com.example.templateProject.service.CoreService;
 import com.example.templateProject.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +26,20 @@ public class HomeController {
     @Autowired
     EmailService emailService;
 
-
-
     @Autowired
     PersonsClient personsClient;
+
+//    @Autowired
+//    KafkaProducer kafkaProducer;
+
+
+//    @GetMapping("/publish")
+//    public ResponseEntity<Object> publishMessage(@RequestParam("message") String message){
+//        log.info("Recieved a request to publish a message to kafka");
+//        kafkaProducer.sendMessage(message);
+//        return ResponseEntity.status(HttpStatus.OK).body("Message sent successfully");
+//    }
+
 
     @GetMapping("/getPersons")
     public ResponseEntity<Object> getPersons(){

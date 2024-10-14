@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.example.templateProject.client.PersonsClient;
 import com.example.templateProject.entity.User;
+import com.example.templateProject.producer.KafkaProducer;
 import com.example.templateProject.service.CoreService;
 import com.example.templateProject.service.EmailService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,6 +42,9 @@ class HomeControllerDiffblueTest {
 
     @MockBean
     private PersonsClient personsClient;
+
+//    @MockBean
+//    private KafkaProducer kafkaProducer;
 
     /**
      * Method under test: {@link HomeController#sendMail()}
